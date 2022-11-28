@@ -29,7 +29,7 @@ public class User {
 	@Id
 	@SequenceGenerator(name = "native",sequenceName = "native")
 	@GeneratedValue(generator = "native",strategy = GenerationType.AUTO)
-	private Long id;
+	private Long userId;
 	private String name;
 	private String pwd;
 	private String email;
