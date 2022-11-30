@@ -6,11 +6,19 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dambroski.foodDeliveryProject.User.UserRepository;
+import com.dambroski.foodDeliveryProject.food.Food;
+import com.dambroski.foodDeliveryProject.food.FoodRepository;
+
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
 	
 	@Autowired
 	RestaurantRepository repository;
+	
+	
+	@Autowired
+	UserRepository userRepository;
 
 	@Override
 	public List<Restaurant> getAllRestaurant() {
@@ -19,10 +27,12 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	public Restaurant postRestaurant(Restaurant restaurant) {
-		// TODO Auto-generated method stub
+	public Restaurant postRestaurant(Restaurant restaurant,Long userId) {
+		restaurant.setUser(userRepository.findById(userId).get());
 		return repository.save(restaurant);
 	}
+	
+	
 
 	@Override
 	public Restaurant putRestaurant(Restaurant restaurant, Long id) {
@@ -48,6 +58,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 		repository.deleteById(id);
 		
 	}
+
+	@Override
+	public Restaurant getById(Long id) {
+		// TODO Auto-generated method stub
+		return repository.findById(id).get();
+	}
+
+	
 	
 	
 	

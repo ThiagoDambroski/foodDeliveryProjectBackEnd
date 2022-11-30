@@ -6,10 +6,13 @@ public interface RestaurantService {
 
 	List<Restaurant> getAllRestaurant();
 
-	Restaurant postRestaurant(Restaurant restaurant);
+	Restaurant postRestaurant(Restaurant restaurant,Long userId);
 
 	Restaurant putRestaurant(Restaurant restaurant, Long id);
 
 	void deleteById(Long id);
+
+	Restaurant getById(Long id);
+
 
 }

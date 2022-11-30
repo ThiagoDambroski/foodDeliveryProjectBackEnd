@@ -20,5 +20,13 @@ public class restResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 		
 	}
+	
+	@ExceptionHandler(NotEnoughFoodException.class)
+	public ResponseEntity<ErrorMessage> notEnoughFood(NotEnoughFoodException exception, WebRequest request){
+		
+		ErrorMessage erro = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+		
+	}
 
 }

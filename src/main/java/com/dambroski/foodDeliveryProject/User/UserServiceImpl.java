@@ -27,12 +27,35 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return repository.findById(id).get();
 	}
+	
+	@Override
+	public User postUserAdmin(User user) {
+		user.setPwd(encoder.encode(user.getPwd()));
+		user.setRole("admin");
+		return repository.save(user);
+	}
 
 	@Override
 	public User postUser(User user) {
 		user.setPwd(encoder.encode(user.getPwd()));
+		user.setRole("user");	
 		return repository.save(user);
 	}
+	
+	@Override
+	public User postUserDelivery(User user) {
+		user.setPwd(encoder.encode(user.getPwd()));
+		user.setRole("delivery");	
+		return repository.save(user);
+	}
+	
+	@Override
+	public User postUserRestaurant(User user) {
+		user.setPwd(encoder.encode(user.getPwd()));
+		user.setRole("restaurant");
+		return repository.save(user);
+	}
+	
 
 	@Override
 	public void deleteById(Long id) {
@@ -54,5 +77,11 @@ public class UserServiceImpl implements UserService{
 		repository.save(newUser);
 		return newUser;
 	}
+
+	
+
+	
+
+	
 
 }

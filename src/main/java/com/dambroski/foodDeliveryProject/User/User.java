@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import com.dambroski.foodDeliveryProject.security.Authority;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,8 +28,7 @@ import lombok.NoArgsConstructor;
 public class User {
 	
 	@Id
-	@SequenceGenerator(name = "native",sequenceName = "native")
-	@GeneratedValue(generator = "native",strategy = GenerationType.AUTO)
+	@GeneratedValue(generator = "user_id",strategy = GenerationType.AUTO)
 	private Long userId;
 	private String name;
 	private String pwd;

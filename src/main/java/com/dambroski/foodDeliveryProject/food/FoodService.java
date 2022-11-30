@@ -6,7 +6,7 @@ public interface FoodService {
 
 	List<Food> getAllFoods();
 
-	Food postFood(Food food);
+	Food postFood(Food food,Long restaurantId);
 
 	Food putFood(Food food, Long id);
 
@@ -15,5 +15,7 @@ public interface FoodService {
 	List<Food> getFoodByName(String name);
 
 	List<Food> getFoodByCategory(String category);
+
+	Food postFoodW(Food food);
 
 }

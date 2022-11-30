@@ -14,4 +14,10 @@ public interface UserService {
 
 	User editUser(User user, Long id);
 
+	User postUserRestaurant(User user);
+
+	User postUserDelivery(User user);
+
+	User postUserAdmin(User user);
+
 }

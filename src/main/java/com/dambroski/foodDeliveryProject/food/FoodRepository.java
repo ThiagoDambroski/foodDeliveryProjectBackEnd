@@ -11,7 +11,7 @@ public interface FoodRepository extends JpaRepository<Food, Long>{
 	@Query("select f from Food f where f.name like '%'||:name||'%' ")
 	List<Food> getFoodByName(@Param("name") String name);
 	
-	@Query("select f from Food where f.category like '%'||:cateogry||'%' ")
+	//@Query("select f from Food f where in f.category like '%'||:category||'%' ")
 	List<Food> getFoodByCategory(@Param("category") String category);
 
 }

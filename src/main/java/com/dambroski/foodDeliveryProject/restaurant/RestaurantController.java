@@ -24,10 +24,18 @@ public class RestaurantController {
 		return service.getAllRestaurant();
 	}
 	
-	@PostMapping("/post")
-	public Restaurant postRestaurant(@RequestBody Restaurant restaurant) {
-		return service.postRestaurant(restaurant);
+	@GetMapping("/getById/{id}")
+	public Restaurant getRestaurantById(@PathVariable(name = "id") Long id) {
+		return service.getById(id);
 	}
+	
+	@PostMapping("/post/{userId}")
+	public Restaurant postRestaurant(@RequestBody Restaurant restaurant,@PathVariable(name = "userId") Long userId) {
+		return service.postRestaurant(restaurant,userId);
+	}
+	
+
+	
 	
 	@PutMapping("put/{id}")
 	public Restaurant putRestaurant(@RequestBody Restaurant restaurant, @PathVariable("id") Long id) {

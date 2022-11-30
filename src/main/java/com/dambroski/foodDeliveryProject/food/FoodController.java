@@ -35,15 +35,22 @@ public class FoodController {
 		return service.getFoodByCategory(category);
 	}
 	
+	@PostMapping("/post/{restaurantId}")
+	public Food postFood(@RequestBody Food food,@PathVariable(name = "restaurantId")Long restaurantId) {
+		return service.postFood(food,restaurantId);
+	}
+	
 	@PostMapping("/post")
 	public Food postFood(@RequestBody Food food) {
-		return service.postFood(food);
+		return service.postFoodW(food);
 	}
 	
 	@PutMapping("/put/{foodId}")
-	public Food putFood(@RequestBody Food food, @PathVariable Long id) {
+	public Food putFood(@RequestBody Food food, @PathVariable(name = "foodId") Long id) {
 		return service.putFood(food,id);
 	}
+	
+	
 	
 	@DeleteMapping("/delete/{foodId}")
 	public void deleteById(@PathVariable("foodId") Long id) {

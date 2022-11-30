@@ -30,9 +30,24 @@ public class UserController {
 		return service.getUserById(id);
 	}
 	
-	@PostMapping("/post")
+	@PostMapping("/post/admin")
+	public User postUserAdmin(@RequestBody User user) {
+		return service.postUserAdmin(user);
+	}
+	
+	@PostMapping("/post/user")
 	public User postUser(@RequestBody User user) {
 		return service.postUser(user);
+	}
+	
+	@PostMapping("/post/restaurant")
+	public User postUserRestaurant(@RequestBody User user) {
+		return service.postUserRestaurant(user);
+	}
+	
+	@PostMapping("/post/delivery")
+	public User postUserDelivery(@RequestBody User user) {
+		return service.postUserDelivery(user);
 	}
 	
 	@DeleteMapping("/delete/{id}")
