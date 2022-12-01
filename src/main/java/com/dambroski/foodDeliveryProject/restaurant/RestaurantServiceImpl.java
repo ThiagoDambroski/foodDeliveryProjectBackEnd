@@ -23,4 +23,20 @@ public class RestaurantServiceImpl implements RestaurantService{
 		return repository.save(restaurant);
 	}
 
+	@Override
+	public void deleteById(Long restaurantId) {
+		repository.deleteById(restaurantId);
+		
+	}
+
+	@Override
+	public Restaurant putRestaurant(Restaurant restaurant, Long restaurantId) {
+		Restaurant newRestaurant = repository.findById(restaurantId).get();
+		
+		newRestaurant.setName(restaurant.getName());
+		newRestaurant.setDescription(restaurant.getDescription());
+		
+		return null;
+	}
+
 }

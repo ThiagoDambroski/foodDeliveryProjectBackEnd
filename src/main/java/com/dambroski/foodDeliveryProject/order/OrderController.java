@@ -23,7 +23,7 @@ public class OrderController {
 	}
 	
 	@PostMapping("/post/{userId}")
-	public Order postOrder(@RequestBody Order order,@PathVariable("userId") Long userId) {
+	public Order postOrder(@RequestBody Order order,@PathVariable("userId") Long userId) throws Exception {
 		return service.post(order,userId);
 	}
 }

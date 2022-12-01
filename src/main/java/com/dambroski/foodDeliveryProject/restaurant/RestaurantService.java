@@ -8,4 +8,8 @@ public interface RestaurantService {
 
 	Restaurant post(Restaurant restaurant);
 
+	void deleteById(Long restaurantId);
+
+	Restaurant putRestaurant(Restaurant restaurant, Long restaurantId);
+
 }

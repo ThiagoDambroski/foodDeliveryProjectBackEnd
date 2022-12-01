@@ -4,6 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+import com.dambroski.foodDeliveryProject.food.Food;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,8 +22,11 @@ public class OrderFood {
 	
 	@Id
 	@GeneratedValue(generator = "order_food_id",strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private Long orderFoodId;
-	private Long foodId;
+	
+	@OneToOne(targetEntity = Food.class)
+	private Food food;
 	
 	private int quantity;
 	

@@ -1,5 +1,6 @@
 package com.dambroski.foodDeliveryProject.order;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,16 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public Order post(Order order,Long userId) {
+	public Order post(Order order,Long userId) throws Exception {
 		List<Long> listIds = order.getFoodsId();
-		List<OrderFood> list = order.getFoods();
+		List<OrderFood> list = new ArrayList<>();
+		if(listIds == null) {
+			throw new Exception("getFoodsIds is empty");
+		}
+		if(order.getFoods() != null) {
+			list = order.getFoods();
+		}
+		
 		double sum = 0;
 		
 		for (Long id : listIds) {
@@ -47,7 +55,7 @@ public class OrderServiceImpl implements OrderService{
 		
 		
 		for (OrderFood orderFood : list) {
-			Food food = foodRepository.findById(orderFood.getFoodId()).get();
+			Food food = orderFood.getFood();
 			if(food.getStock() >= orderFood.getQuantity()) {
 				food.setStock(food.getStock() - orderFood.getQuantity());
 				foodRepository.save(food);
@@ -57,7 +65,7 @@ public class OrderServiceImpl implements OrderService{
 						, food.getName(),orderFood.getQuantity(),food.getStock()));
 			}	
 		}
-		
+		order.setFoods(list);
 		order.setUser(userRepository.findById(userId).get());
 		order.setTotalValue(sum);
 		order.setStatus(OrderStatus.IN_PROCESS);

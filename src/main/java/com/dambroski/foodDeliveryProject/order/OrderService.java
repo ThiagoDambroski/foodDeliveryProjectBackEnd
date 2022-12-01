@@ -6,6 +6,6 @@ public interface OrderService {
 
 	List<Order> getAll();
 
-	Order post(Order order,Long userId);
+	Order post(Order order,Long userId) throws Exception;
 
 }

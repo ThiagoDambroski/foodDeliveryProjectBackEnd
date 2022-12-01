@@ -6,6 +6,6 @@ public interface OrderFoodService {
 
 	List<OrderFood> getAll();
 
-	OrderFood postOrderFood(OrderFood orderFood);
+	OrderFood postOrderFood(OrderFood orderFood, Long foodId);
 
 }
