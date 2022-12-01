@@ -3,6 +3,7 @@ package com.dambroski.foodDeliveryProject.order;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +19,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.dambroski.foodDeliveryProject.User.User;
+import com.dambroski.foodDeliveryProject.orderFood.OrderFood;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -40,6 +43,10 @@ public class Order {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", referencedColumnName = "userId",updatable = true)
 	private User user;
+	
+	@JsonIgnore
+	@ElementCollection(targetClass = Long.class)
+	private List<Long> foodsId;
 	
 	@ManyToMany
 	@JoinTable(joinColumns = @JoinColumn(name = "order_id",referencedColumnName = "orderId"),inverseJoinColumns = 

@@ -1,4 +1,4 @@
-package com.dambroski.foodDeliveryProject.order;
+package com.dambroski.foodDeliveryProject.orderFood;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +19,6 @@ public class OrderFood {
 	@Id
 	@GeneratedValue(generator = "order_food_id",strategy = GenerationType.IDENTITY)
 	private Long orderFoodId;
-
 	private Long foodId;
 	
 	private int quantity;

@@ -9,6 +9,8 @@ import com.dambroski.foodDeliveryProject.User.UserRepository;
 import com.dambroski.foodDeliveryProject.error.NotEnoughFoodException;
 import com.dambroski.foodDeliveryProject.food.Food;
 import com.dambroski.foodDeliveryProject.food.FoodRepository;
+import com.dambroski.foodDeliveryProject.orderFood.OrderFood;
+import com.dambroski.foodDeliveryProject.orderFood.OrderFoodRepository;
 
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -21,6 +23,10 @@ public class OrderServiceImpl implements OrderService{
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	OrderFoodRepository orderFoodRepository;
+	
 
 	@Override
 	public List<Order> getAll() {
@@ -29,8 +35,17 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public Order post(Order order,Long userId) {
+		List<Long> listIds = order.getFoodsId();
 		List<OrderFood> list = order.getFoods();
 		double sum = 0;
+		
+		for (Long id : listIds) {
+			
+			list.add(orderFoodRepository.findById(id).get());
+			
+		}	
+		
+		
 		for (OrderFood orderFood : list) {
 			Food food = foodRepository.findById(orderFood.getFoodId()).get();
 			if(food.getStock() >= orderFood.getQuantity()) {
@@ -42,6 +57,7 @@ public class OrderServiceImpl implements OrderService{
 						, food.getName(),orderFood.getQuantity(),food.getStock()));
 			}	
 		}
+		
 		order.setUser(userRepository.findById(userId).get());
 		order.setTotalValue(sum);
 		order.setStatus(OrderStatus.IN_PROCESS);

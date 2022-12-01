@@ -1,4 +1,4 @@
-package com.dambroski.foodDeliveryProject.restaurant;
+package com.dambroski.foodDeliveryProject.orderFood;
 
 import java.util.List;
 
@@ -6,21 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RestaurantServiceImpl implements RestaurantService{
+public class OrderFoodServiceImpl implements OrderFoodService{
 	
 	@Autowired
-	RestaurantRepository repository;
+	OrderFoodRepository repository;
 
 	@Override
-	public List<Restaurant> getAll() {
+	public List<OrderFood> getAll() {
 		// TODO Auto-generated method stub
 		return repository.findAll();
 	}
 
 	@Override
-	public Restaurant post(Restaurant restaurant) {
+	public OrderFood postOrderFood(OrderFood orderFood) {
 		// TODO Auto-generated method stub
-		return repository.save(restaurant);
+		return repository.save(orderFood);
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.dambroski.foodDeliveryProject.restaurant;
+package com.dambroski.foodDeliveryProject.orderFood;
 
 import java.util.List;
 
@@ -10,19 +10,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/restaurant")
-public class RestaurantController {
+@RequestMapping("/orderFood")
+public class OrderFoodController {
 	
 	@Autowired
-	RestaurantService service;
+	OrderFoodService service;
+	
 	
 	@GetMapping("/getAll")
-	public List<Restaurant> getAll(){
+	public List<OrderFood> getAll(){
 		return service.getAll();
 	}
 	
 	@PostMapping("/post")
-	public Restaurant postRestaurant(@RequestBody Restaurant restaurant){
-		return service.post(restaurant);
+	public OrderFood postOrderFood(@RequestBody OrderFood orderFood) {
+		return service.postOrderFood(orderFood);
 	}
+	
+	
+
 }

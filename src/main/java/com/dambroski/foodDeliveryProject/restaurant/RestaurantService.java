@@ -4,15 +4,8 @@ import java.util.List;
 
 public interface RestaurantService {
 
-	List<Restaurant> getAllRestaurant();
+	List<Restaurant> getAll();
 
-	Restaurant postRestaurant(Restaurant restaurant,Long userId);
-
-	Restaurant putRestaurant(Restaurant restaurant, Long id);
-
-	void deleteById(Long id);
-
-	Restaurant getById(Long id);
-
+	Restaurant post(Restaurant restaurant);
 
 }
