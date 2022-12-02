@@ -1,11 +1,14 @@
 package com.dambroski.foodDeliveryProject.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.dambroski.foodDeliveryProject.Address.Address;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -76,6 +79,19 @@ public class UserServiceImpl implements UserService{
 		
 		repository.save(newUser);
 		return newUser;
+	}
+
+	@Override
+	public User addAddress(Address address, Long userId) {
+		User user = repository.findById(userId).get();
+		if(user.getAddresses() == null) {
+			List<Address> listAddress = new ArrayList<>();
+			user.setAddresses(listAddress);
+		}
+		address.setType("USER");
+		address.setTypeId(user.getUserId());
+		user.getAddresses().add(address);
+		return repository.save(user);
 	}
 
 	

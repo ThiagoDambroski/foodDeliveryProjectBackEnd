@@ -5,11 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dambroski.foodDeliveryProject.Address.Address;
+import com.dambroski.foodDeliveryProject.Address.AddressRepository;
+
 @Service
 public class RestaurantServiceImpl implements RestaurantService{
 	
 	@Autowired
 	RestaurantRepository repository;
+	
+	@Autowired
+	AddressRepository addressRepository;
 
 	@Override
 	public List<Restaurant> getAll() {
@@ -37,6 +43,16 @@ public class RestaurantServiceImpl implements RestaurantService{
 		newRestaurant.setDescription(restaurant.getDescription());
 		
 		return null;
+	}
+
+	@Override
+	public Restaurant addRestaurant(Address address, Long restaurantId) {
+		Restaurant restaurant = repository.findById(restaurantId).get();
+		address.setType("RESTAURANT");
+		address.setTypeId(restaurantId);
+		addressRepository.save(address);
+		restaurant.setAddress(address);
+		return repository.save(restaurant);
 	}
 
 }

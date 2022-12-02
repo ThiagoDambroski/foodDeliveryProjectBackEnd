@@ -8,4 +8,7 @@ public interface OrderService {
 
 	Order post(Order order,Long userId) throws Exception;
 
+	void deleteById(Long orderId);
+
+
 }

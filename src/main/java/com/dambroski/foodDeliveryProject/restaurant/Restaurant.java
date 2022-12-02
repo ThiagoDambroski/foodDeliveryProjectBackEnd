@@ -6,8 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.dambroski.foodDeliveryProject.Address.Address;
 import com.dambroski.foodDeliveryProject.food.Food;
 
 import lombok.AllArgsConstructor;
@@ -28,7 +30,11 @@ public class Restaurant {
 
 	private String description;
 	
+	
 	@OneToMany(mappedBy = "restaurant")
 	private List<Food> itens;
+	
+	@ManyToOne
+	private Address address;
 	
 }

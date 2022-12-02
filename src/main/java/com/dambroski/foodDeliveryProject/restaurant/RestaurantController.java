@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dambroski.foodDeliveryProject.Address.Address;
+
 import lombok.Delegate;
 
 @RestController
@@ -39,5 +41,10 @@ public class RestaurantController {
 	@DeleteMapping("/delete/{restaurantId}")
 	public void deleteResturantById(@PathVariable("restaurantId")Long restaurantId) {
 		 service.deleteById(restaurantId);
+	}
+	
+	@PutMapping("/addAddress/{restaurantId}")
+	public Restaurant addRestaurant(@RequestBody Address address,@PathVariable("restaurantId") Long restaurantId ) {
+		return service.addRestaurant(address,restaurantId);
 	}
 }

@@ -2,6 +2,8 @@ package com.dambroski.foodDeliveryProject.User;
 
 import java.util.List;
 
+import com.dambroski.foodDeliveryProject.Address.Address;
+
 public interface UserService {
 
 	List<User> getAll();
@@ -19,5 +21,7 @@ public interface UserService {
 	User postUserDelivery(User user);
 
 	User postUserAdmin(User user);
+
+	User addAddress(Address address, Long userId);
 
 }

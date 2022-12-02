@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dambroski.foodDeliveryProject.Address.Address;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -58,6 +60,10 @@ public class UserController {
 	@PutMapping("/edit/{id}")
 	public User editUser(@PathVariable("id")Long id, @RequestBody User user) {
 		return service.editUser(user,id);
+	}
+	@PutMapping("/addAddress/{userId}")
+	public User addAddress(@RequestBody Address address,@PathVariable("userId") Long userId) {
+		return service.addAddress(address,userId);
 	}
 	
 	@GetMapping("/test")

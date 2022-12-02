@@ -73,4 +73,19 @@ public class OrderServiceImpl implements OrderService{
 		return repository.save(order);
 	}
 
+	@Override
+	public void deleteById(Long orderId) {
+		Order order = repository.findById(orderId).get();
+		List<OrderFood> foods = order.getFoods();
+		for (OrderFood orderFood : foods) {
+			Food food = orderFood.getFood();
+			food.setStock(food.getStock() + orderFood.getQuantity());
+			foodRepository.save(food);
+		}
+		
+		repository.deleteById(orderId);
+	}
+
+
+
 }
