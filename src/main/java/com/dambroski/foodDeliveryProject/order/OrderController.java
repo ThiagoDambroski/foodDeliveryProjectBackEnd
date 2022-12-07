@@ -26,15 +26,21 @@ public class OrderController {
 		return service.getAll();
 	}
 	
-	@PostMapping("/post/{userId}")
-	public Order postOrder(@RequestBody Order order,@PathVariable("userId") Long userId) throws Exception {
-		return service.post(order,userId);
+	@PostMapping("/post/{userId}/{addressId}")
+	public Order postOrder(@RequestBody Order order,@PathVariable("userId") Long userId,@PathVariable("addressId")Long addressId)
+			throws Exception {
+		return service.post(order,userId,addressId);
 	}
 	
 	
 	@DeleteMapping("/delete/{orderid}")
 	public void deleteOrder(@PathVariable("orderId") Long orderId) {
 		service.deleteById(orderId);
+	}
+	
+	@PutMapping("/paid/{orderId}")
+	public Order paidOrder(@PathVariable("orderId")Long orderId) {
+		return service.paidOrder(orderId);
 	}
 	
 }

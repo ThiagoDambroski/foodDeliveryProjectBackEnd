@@ -65,11 +65,7 @@ public class UserController {
 	public User addAddress(@RequestBody Address address,@PathVariable("userId") Long userId) {
 		return service.addAddress(address,userId);
 	}
-	
-	@GetMapping("/test")
-	public String test() {
-		return "sucess";
-	}
+
 	
 
 }

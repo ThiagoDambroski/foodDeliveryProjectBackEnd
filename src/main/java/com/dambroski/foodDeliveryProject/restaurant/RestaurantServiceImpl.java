@@ -42,7 +42,8 @@ public class RestaurantServiceImpl implements RestaurantService{
 		newRestaurant.setName(restaurant.getName());
 		newRestaurant.setDescription(restaurant.getDescription());
 		
-		return null;
+		repository.save(newRestaurant);
+		return newRestaurant;
 	}
 
 	@Override

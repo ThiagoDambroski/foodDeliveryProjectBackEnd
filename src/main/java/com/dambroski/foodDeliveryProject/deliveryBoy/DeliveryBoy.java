@@ -1,4 +1,4 @@
-package com.dambroski.foodDeliveryProject.restaurant;
+package com.dambroski.foodDeliveryProject.deliveryBoy;
 
 import java.util.List;
 
@@ -6,12 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.dambroski.foodDeliveryProject.Address.Address;
-import com.dambroski.foodDeliveryProject.food.Food;
+import com.dambroski.foodDeliveryProject.User.User;
+import com.dambroski.foodDeliveryProject.delivery.Delivery;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,21 +21,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Restaurant {
+public class DeliveryBoy {
+	
 	
 	@Id
-	@GeneratedValue(generator = "restaurant_id",strategy = GenerationType.IDENTITY)
-	private Long restaurantId;
-	
-	private String name;
-
-	private String description;
-	
-	
-	@OneToMany(mappedBy = "restaurant")
-	private List<Food> itens;
+	@GeneratedValue(generator = "delivery_boy_id",strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	@OneToOne
-	private Address address;
+	private User user;
 	
+	private String region;
+	
+	@OneToMany
+	private List<Delivery> deliveries;
 }

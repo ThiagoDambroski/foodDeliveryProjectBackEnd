@@ -15,9 +15,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.dambroski.foodDeliveryProject.Address.Address;
 import com.dambroski.foodDeliveryProject.User.User;
 import com.dambroski.foodDeliveryProject.orderFood.OrderFood;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -45,6 +47,10 @@ public class Order {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", referencedColumnName = "userId",updatable = true)
 	private User user;
+	
+	
+	@OneToOne
+	private Address address;
 	
 	
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

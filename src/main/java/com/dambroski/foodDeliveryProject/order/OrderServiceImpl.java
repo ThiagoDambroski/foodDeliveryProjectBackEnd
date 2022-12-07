@@ -6,7 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dambroski.foodDeliveryProject.Address.AddressRepository;
 import com.dambroski.foodDeliveryProject.User.UserRepository;
+import com.dambroski.foodDeliveryProject.delivery.Delivery;
+import com.dambroski.foodDeliveryProject.delivery.DeliveryRepository;
+import com.dambroski.foodDeliveryProject.delivery.DeliveryStatus;
 import com.dambroski.foodDeliveryProject.error.NotEnoughFoodException;
 import com.dambroski.foodDeliveryProject.food.Food;
 import com.dambroski.foodDeliveryProject.food.FoodRepository;
@@ -28,6 +32,12 @@ public class OrderServiceImpl implements OrderService{
 	@Autowired
 	OrderFoodRepository orderFoodRepository;
 	
+	@Autowired
+	DeliveryRepository deliveryRepository;
+	
+	@Autowired
+	AddressRepository addressRepository;
+	
 
 	@Override
 	public List<Order> getAll() {
@@ -35,7 +45,7 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public Order post(Order order,Long userId) throws Exception {
+	public Order post(Order order,Long userId,Long addressId) throws Exception {
 		List<Long> listIds = order.getFoodsId();
 		List<OrderFood> list = new ArrayList<>();
 		if(listIds == null) {
@@ -69,6 +79,7 @@ public class OrderServiceImpl implements OrderService{
 		order.setUser(userRepository.findById(userId).get());
 		order.setTotalValue(sum);
 		order.setStatus(OrderStatus.IN_PROCESS);
+		order.setAddress(addressRepository.findById(addressId).get());
 		
 		return repository.save(order);
 	}
@@ -84,6 +95,16 @@ public class OrderServiceImpl implements OrderService{
 		}
 		
 		repository.deleteById(orderId);
+	}
+
+	@Override
+	public Order paidOrder(Long orderId) {
+		Order order = repository.findById(orderId).get();
+		order.setStatus(OrderStatus.PAID);
+		Delivery delivery = Delivery.builder().order(order).status(DeliveryStatus.WAINTING_FOR_RESTAURANT_APROVE)
+			.selectAddress(order.getAddress()).build();
+		deliveryRepository.save(delivery);
+		return order;
 	}
 
 

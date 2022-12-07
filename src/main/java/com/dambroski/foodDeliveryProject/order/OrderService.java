@@ -6,9 +6,11 @@ public interface OrderService {
 
 	List<Order> getAll();
 
-	Order post(Order order,Long userId) throws Exception;
+	Order post(Order order,Long userId, Long addressId) throws Exception;
 
 	void deleteById(Long orderId);
+
+	Order paidOrder(Long orderId);
 
 
 }
