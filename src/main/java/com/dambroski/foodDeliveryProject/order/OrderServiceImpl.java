@@ -16,6 +16,8 @@ import com.dambroski.foodDeliveryProject.food.Food;
 import com.dambroski.foodDeliveryProject.food.FoodRepository;
 import com.dambroski.foodDeliveryProject.orderFood.OrderFood;
 import com.dambroski.foodDeliveryProject.orderFood.OrderFoodRepository;
+import com.dambroski.foodDeliveryProject.restaurant.Restaurant;
+import com.dambroski.foodDeliveryProject.restaurant.RestaurantRepository;
 
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -28,6 +30,9 @@ public class OrderServiceImpl implements OrderService{
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	RestaurantRepository restaurantRepository;
 	
 	@Autowired
 	OrderFoodRepository orderFoodRepository;
@@ -45,7 +50,7 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public Order post(Order order,Long userId,Long addressId) throws Exception {
+	public Order post(Order order,Long userId,Long addressId,Long restaurantId) throws Exception {
 		List<Long> listIds = order.getFoodsId();
 		List<OrderFood> list = new ArrayList<>();
 		if(listIds == null) {
@@ -80,6 +85,7 @@ public class OrderServiceImpl implements OrderService{
 		order.setTotalValue(sum);
 		order.setStatus(OrderStatus.IN_PROCESS);
 		order.setAddress(addressRepository.findById(addressId).get());
+		order.setRestaurant(restaurantRepository.findById(restaurantId).get());
 		
 		return repository.save(order);
 	}
@@ -92,6 +98,15 @@ public class OrderServiceImpl implements OrderService{
 			Food food = orderFood.getFood();
 			food.setStock(food.getStock() + orderFood.getQuantity());
 			foodRepository.save(food);
+		}
+		if(order.getStatus() == OrderStatus.PAID) {
+			List<Delivery> deliverys = deliveryRepository.findAll(); 
+			for (Delivery delivery : deliverys) {
+				if(delivery.getOrder() == order) {
+					delivery.setOrder(null);
+					deliveryRepository.save(delivery);
+				}
+			}
 		}
 		
 		repository.deleteById(orderId);

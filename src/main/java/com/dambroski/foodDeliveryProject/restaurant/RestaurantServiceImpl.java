@@ -1,12 +1,17 @@
 package com.dambroski.foodDeliveryProject.restaurant;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import com.dambroski.foodDeliveryProject.Address.Address;
 import com.dambroski.foodDeliveryProject.Address.AddressRepository;
+import com.dambroski.foodDeliveryProject.delivery.Delivery;
+import com.dambroski.foodDeliveryProject.delivery.DeliveryRepository;
+import com.dambroski.foodDeliveryProject.delivery.DeliveryStatus;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService{
@@ -16,6 +21,9 @@ public class RestaurantServiceImpl implements RestaurantService{
 	
 	@Autowired
 	AddressRepository addressRepository;
+	
+	@Autowired
+	DeliveryRepository deliveryRepository;	
 
 	@Override
 	public List<Restaurant> getAll() {
@@ -34,14 +42,21 @@ public class RestaurantServiceImpl implements RestaurantService{
 		repository.deleteById(restaurantId);
 		
 	}
+	
+	
 
 	@Override
 	public Restaurant putRestaurant(Restaurant restaurant, Long restaurantId) {
 		Restaurant newRestaurant = repository.findById(restaurantId).get();
 		
-		newRestaurant.setName(restaurant.getName());
-		newRestaurant.setDescription(restaurant.getDescription());
+		if(Objects.nonNull(restaurant.getName()) && !"".equals(restaurant.getName())) {
+			newRestaurant.setName(restaurant.getName());
+		}
+		if(Objects.nonNull(restaurant.getDescription()) && !"".equals(restaurant.getDescription())) {
+			newRestaurant.setDescription(restaurant.getDescription());
+		}
 		
+	
 		repository.save(newRestaurant);
 		return newRestaurant;
 	}
@@ -54,6 +69,26 @@ public class RestaurantServiceImpl implements RestaurantService{
 		addressRepository.save(address);
 		restaurant.setAddress(address);
 		return repository.save(restaurant);
+	}
+
+	@Override
+	public Restaurant getById(Long restaurantId) {
+		// TODO Auto-generated method stub
+		return repository.findById(restaurantId).get();
+	}
+
+	@Override
+	public Delivery aproveDelivery(Long deliveryId, Long restarauntId) {
+		Restaurant restaurant = repository.findById(restarauntId).get();
+		Delivery delivery = deliveryRepository.findById(deliveryId).get();
+		if(delivery.getOrder().getRestaurant() == restaurant) {
+			delivery.setStatus(DeliveryStatus.COOKING);
+			deliveryRepository.save(delivery);
+		}else {
+			throw new BadCredentialsException("Restaurant or delivery code incorrect");
+		}
+		
+		return delivery;
 	}
 
 }

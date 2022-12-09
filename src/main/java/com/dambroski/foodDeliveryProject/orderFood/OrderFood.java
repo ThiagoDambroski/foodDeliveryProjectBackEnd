@@ -22,7 +22,7 @@ public class OrderFood {
 	
 	@Id
 	@GeneratedValue(generator = "order_food_id",strategy = GenerationType.IDENTITY)
-	@JsonIgnore
+	
 	private Long orderFoodId;
 	
 	@OneToOne(targetEntity = Food.class)

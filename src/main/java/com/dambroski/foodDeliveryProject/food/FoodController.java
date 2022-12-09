@@ -30,7 +30,7 @@ public class FoodController {
 		return service.getFoodByName(name);
 	}
 	
-	@GetMapping("getByCategory/{category}")
+	@GetMapping("/getByCategory/{category}")
 	public List<Food> getByCategory(@PathVariable("category") String category){
 		return service.getFoodByCategory(category);
 	}
@@ -40,10 +40,7 @@ public class FoodController {
 		return service.postFood(food,restaurantId);
 	}
 	
-	@PostMapping("/post")
-	public Food postFood(@RequestBody Food food) {
-		return service.postFoodW(food);
-	}
+	
 	
 	@PutMapping("/put/{foodId}")
 	public Food putFood(@RequestBody Food food, @PathVariable(name = "foodId") Long id) {

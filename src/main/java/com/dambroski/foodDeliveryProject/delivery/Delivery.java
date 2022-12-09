@@ -10,7 +10,6 @@ import javax.persistence.OneToOne;
 import com.dambroski.foodDeliveryProject.Address.Address;
 import com.dambroski.foodDeliveryProject.deliveryBoy.DeliveryBoy;
 import com.dambroski.foodDeliveryProject.order.Order;
-import com.dambroski.foodDeliveryProject.restaurant.Restaurant;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

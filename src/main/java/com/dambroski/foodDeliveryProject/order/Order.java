@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import com.dambroski.foodDeliveryProject.Address.Address;
 import com.dambroski.foodDeliveryProject.User.User;
 import com.dambroski.foodDeliveryProject.orderFood.OrderFood;
+import com.dambroski.foodDeliveryProject.restaurant.Restaurant;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -61,7 +62,11 @@ public class Order {
 	@ManyToMany
 	@JoinTable(joinColumns = @JoinColumn(name = "order_id",referencedColumnName = "orderId"),inverseJoinColumns = 
 	@JoinColumn(name = "order_food_id",referencedColumnName = "orderFoodId"))
+	@JsonIgnoreProperties(value = "orderFoodId" )
 	private List<OrderFood> foods;
+	
+	@ManyToOne
+	private Restaurant restaurant;
 	
 	private OrderStatus status;
 	

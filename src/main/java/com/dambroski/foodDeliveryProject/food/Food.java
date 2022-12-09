@@ -43,7 +43,7 @@ public class Food {
 	private List<Category> category;
 	
 	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "restaurant_id",referencedColumnName = "restaurantId")
 	private Restaurant restaurant;
 	

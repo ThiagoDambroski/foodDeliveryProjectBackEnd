@@ -3,6 +3,7 @@ package com.dambroski.foodDeliveryProject.restaurant;
 import java.util.List;
 
 import com.dambroski.foodDeliveryProject.Address.Address;
+import com.dambroski.foodDeliveryProject.delivery.Delivery;
 
 public interface RestaurantService {
 
@@ -15,5 +16,9 @@ public interface RestaurantService {
 	Restaurant putRestaurant(Restaurant restaurant, Long restaurantId);
 
 	Restaurant addRestaurant(Address address, Long restaurantId);
+
+	Restaurant getById(Long restaurantId);
+
+	Delivery aproveDelivery(Long deliveryId, Long restarauntId);
 
 }

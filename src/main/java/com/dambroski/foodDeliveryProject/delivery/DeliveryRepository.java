@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
 	
-	//@Query("select d from delivery d where d.select_address.city LIKE '%'||:region||'%'")
-	
-	//List<Delivery> findDeliveryByRegion(@Param("region") String region);
+	@Query("select d from Delivery d where d.selectAddress.city LIKE '%'||:region||'%'")
+	List<Delivery> findDeliveryByRegion(@Param("region") String region);
 
 }

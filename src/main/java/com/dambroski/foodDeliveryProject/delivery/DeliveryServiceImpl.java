@@ -28,7 +28,7 @@ public class DeliveryServiceImpl implements  DeliveryService{
 	public List<Delivery> getByRegionDelivery(Long boyId) {
 		DeliveryBoy boy = boyRepository.findById(boyId).get();
 		String deliveryRegion = boy.getRegion();
-		return null;
+		return repository.findDeliveryByRegion(deliveryRegion);
 	}
 
 }

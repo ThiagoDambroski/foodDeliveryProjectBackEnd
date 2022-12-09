@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dambroski.foodDeliveryProject.Address.Address;
+import com.dambroski.foodDeliveryProject.delivery.Delivery;
 
 import lombok.Delegate;
 
@@ -26,6 +27,11 @@ public class RestaurantController {
 	@GetMapping("/getAll")
 	public List<Restaurant> getAll(){
 		return service.getAll();
+	}
+	
+	@GetMapping("/getById/{restaurantId}")
+	public Restaurant getById(@PathVariable(name = "restaurantId") Long restaurantId) {
+		return service.getById(restaurantId);
 	}
 	
 	@PostMapping("/post")
@@ -46,5 +52,10 @@ public class RestaurantController {
 	@PutMapping("/addAddress/{restaurantId}")
 	public Restaurant addRestaurant(@RequestBody Address address,@PathVariable("restaurantId") Long restaurantId ) {
 		return service.addRestaurant(address,restaurantId);
+	}
+	
+	@PutMapping("/aproveDelivery/{restaurantId}/{deliveryId}")
+	public Delivery aproveDelivery(@PathVariable("deliveryId") Long deliveryId,@PathVariable("restaurantId") Long restarauntId) {
+		return service.aproveDelivery(deliveryId,restarauntId);
 	}
 }

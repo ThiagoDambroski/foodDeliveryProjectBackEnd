@@ -38,9 +38,17 @@ public class FoodServiceImpl implements FoodService{
 		if(Objects.nonNull(food.getDescription())) {
 			newFood.setDescription(food.getDescription());
 		}
-		newFood.setPrice(food.getPrice());
-		newFood.setCategory(food.getCategory());
-		newFood.setStock(food.getStock());
+		if(Objects.nonNull(food.getPrice())) {
+			newFood.setPrice(food.getPrice());
+		}
+		if(Objects.nonNull(food.getCategory())) {
+			newFood.setCategory(food.getCategory());
+		}
+		if(Objects.nonNull(food.getStock())) {
+			newFood.setStock(food.getStock());
+		}
+		
+		
 		return repository.save(newFood);
 		
 		
@@ -64,10 +72,5 @@ public class FoodServiceImpl implements FoodService{
 		return repository.getFoodByCategory(category);
 	}
 
-	@Override
-	public Food postFoodW(Food food) {
-		// TODO Auto-generated method stub
-		return repository.save(food);
-	}
-
+	
 }

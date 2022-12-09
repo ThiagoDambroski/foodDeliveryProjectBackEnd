@@ -16,6 +16,5 @@ public interface FoodService {
 
 	List<Food> getFoodByCategory(String category);
 
-	Food postFoodW(Food food);
 
 }
