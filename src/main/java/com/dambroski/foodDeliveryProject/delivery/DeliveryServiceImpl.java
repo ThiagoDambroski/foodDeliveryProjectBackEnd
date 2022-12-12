@@ -31,4 +31,12 @@ public class DeliveryServiceImpl implements  DeliveryService{
 		return repository.findDeliveryByRegion(deliveryRegion);
 	}
 
+	@Override
+	public Delivery addDeliveryboy(Long deliveryId, Long boyId) {
+		DeliveryBoy boy = boyRepository.findById(boyId).get();
+		Delivery delivery = repository.findById(deliveryId).get();
+		delivery.setBoy(boy);
+		return repository.save(delivery);
+	}
+
 }

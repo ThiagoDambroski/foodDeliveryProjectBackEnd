@@ -24,4 +24,6 @@ public interface UserService {
 
 	User addAddress(Address address, Long userId);
 
+	User editAddress(Address address, Long userId, Long addressId);
+
 }

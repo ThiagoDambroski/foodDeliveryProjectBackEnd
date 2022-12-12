@@ -28,5 +28,13 @@ public class restResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
 		
 	}
+	
+	@ExceptionHandler(RestaurantNotFoundException.class)
+	public ResponseEntity<ErrorMessage> restaurantNotFound(RestaurantNotFoundException exception,WebRequest request){
+		
+		ErrorMessage erro = new ErrorMessage(HttpStatus.NOT_FOUND,exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+	}
 
 }

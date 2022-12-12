@@ -2,6 +2,7 @@ package com.dambroski.foodDeliveryProject.restaurant;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,6 +13,7 @@ import com.dambroski.foodDeliveryProject.Address.AddressRepository;
 import com.dambroski.foodDeliveryProject.delivery.Delivery;
 import com.dambroski.foodDeliveryProject.delivery.DeliveryRepository;
 import com.dambroski.foodDeliveryProject.delivery.DeliveryStatus;
+import com.dambroski.foodDeliveryProject.error.RestaurantNotFoundException;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService{
@@ -39,6 +41,11 @@ public class RestaurantServiceImpl implements RestaurantService{
 
 	@Override
 	public void deleteById(Long restaurantId) {
+		Optional<Restaurant> optionalRestaurant = repository.findById(restaurantId);
+		if(optionalRestaurant.isEmpty()) {
+			throw new RestaurantNotFoundException("restaurant Not Found");
+		}
+		
 		repository.deleteById(restaurantId);
 		
 	}

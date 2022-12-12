@@ -65,6 +65,14 @@ public class UserController {
 	public User addAddress(@RequestBody Address address,@PathVariable("userId") Long userId) {
 		return service.addAddress(address,userId);
 	}
+	@PutMapping("/editAddress/{userId}/{addressId}")
+	public User editAddress(@RequestBody Address address,@PathVariable("userId") Long userId,
+			@PathVariable("addressId") Long addressId) {
+		
+		return service.editAddress(address,userId,addressId);
+	
+		
+	}
 
 	
 

@@ -8,4 +8,6 @@ public interface DeliveryService {
 
 	List<Delivery> getByRegionDelivery(Long boyId);
 
+	Delivery addDeliveryboy(Long deliveryId, Long boyId);
+
 }
