@@ -37,5 +37,6 @@ public class Restaurant {
 	
 	@OneToOne
 	private Address address;
+
 	
 }

@@ -26,6 +26,7 @@ import com.dambroski.foodDeliveryProject.restaurant.Restaurant;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -44,7 +45,7 @@ public class Order {
 	@GeneratedValue(generator = "order_id",strategy = GenerationType.IDENTITY)
 	private Long orderId;
 	
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@JsonIncludeProperties({"userId","name","email"})
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", referencedColumnName = "userId",updatable = true)
 	private User user;
@@ -66,6 +67,7 @@ public class Order {
 	private List<OrderFood> foods;
 	
 	@ManyToOne
+	@JsonIncludeProperties({"restaurantId","name"})
 	private Restaurant restaurant;
 	
 	private OrderStatus status;

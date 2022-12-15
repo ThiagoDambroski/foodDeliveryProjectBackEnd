@@ -1,5 +1,6 @@
 package com.dambroski.foodDeliveryProject.restaurant;
 
+import java.lang.StackWalker.Option;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -13,6 +14,7 @@ import com.dambroski.foodDeliveryProject.Address.AddressRepository;
 import com.dambroski.foodDeliveryProject.delivery.Delivery;
 import com.dambroski.foodDeliveryProject.delivery.DeliveryRepository;
 import com.dambroski.foodDeliveryProject.delivery.DeliveryStatus;
+import com.dambroski.foodDeliveryProject.error.DeliveryNotFoundException;
 import com.dambroski.foodDeliveryProject.error.RestaurantNotFoundException;
 
 @Service
@@ -54,7 +56,12 @@ public class RestaurantServiceImpl implements RestaurantService{
 
 	@Override
 	public Restaurant putRestaurant(Restaurant restaurant, Long restaurantId) {
-		Restaurant newRestaurant = repository.findById(restaurantId).get();
+		Optional<Restaurant> optionalRestaurant = repository.findById(restaurantId);
+		if(optionalRestaurant.isEmpty()) {
+			throw new RestaurantNotFoundException("Restaurant Not Found");
+		}
+		
+		Restaurant newRestaurant = optionalRestaurant.get();
 		
 		if(Objects.nonNull(restaurant.getName()) && !"".equals(restaurant.getName())) {
 			newRestaurant.setName(restaurant.getName());
@@ -69,14 +76,42 @@ public class RestaurantServiceImpl implements RestaurantService{
 	}
 
 	@Override
-	public Restaurant addRestaurant(Address address, Long restaurantId) {
-		Restaurant restaurant = repository.findById(restaurantId).get();
+	public Restaurant addAddress(Address address, Long restaurantId) {
+		Optional<Restaurant> optionalRestaurant = repository.findById(restaurantId);
+		if(optionalRestaurant.isEmpty()) {
+			throw new RestaurantNotFoundException();
+		}
+		Restaurant restaurant = optionalRestaurant.get();
 		address.setType("RESTAURANT");
 		address.setTypeId(restaurantId);
 		addressRepository.save(address);
 		restaurant.setAddress(address);
 		return repository.save(restaurant);
 	}
+	
+	@Override
+	public Restaurant editAddress(Address address , Long restaurantId) {
+		Optional<Restaurant> optionalRestaurant = repository.findById(restaurantId);
+		if(optionalRestaurant.isEmpty()) {
+			throw new RestaurantNotFoundException("Restaurant not foun");
+		}
+		Restaurant restaurant = optionalRestaurant.get();
+		if(Objects.nonNull(address.getCity()) && !"".equals(address.getCity())) {
+			restaurant.getAddress().setCity(address.getCity());
+		}
+		if(Objects.nonNull(address.getState()) && !"".equals(address.getState())) {
+			restaurant.getAddress().setState(address.getState());
+		}
+		if(Objects.nonNull(address.getAddress()) && !"".equals(address.getAddress())) {
+			restaurant.getAddress().setAddress(address.getAddress());
+		}
+		repository.save(restaurant);
+		
+		
+		
+		return restaurant;
+	}
+
 
 	@Override
 	public Restaurant getById(Long restaurantId) {
@@ -86,8 +121,16 @@ public class RestaurantServiceImpl implements RestaurantService{
 
 	@Override
 	public Delivery aproveDelivery(Long deliveryId, Long restarauntId) {
-		Restaurant restaurant = repository.findById(restarauntId).get();
-		Delivery delivery = deliveryRepository.findById(deliveryId).get();
+		Optional<Restaurant> optionalRestaurant = repository.findById(restarauntId);
+		if(optionalRestaurant.isEmpty()) {
+			throw new RestaurantNotFoundException();
+		}
+		Restaurant restaurant = optionalRestaurant.get();
+		Optional<Delivery> optionalDelivery = deliveryRepository.findById(deliveryId);
+		if(optionalDelivery.isEmpty()) {
+			throw new DeliveryNotFoundException("Delivery Not Found");
+		}
+		Delivery delivery = optionalDelivery.get();
 		if(delivery.getOrder().getRestaurant() == restaurant) {
 			delivery.setStatus(DeliveryStatus.COOKING);
 			deliveryRepository.save(delivery);
@@ -97,5 +140,30 @@ public class RestaurantServiceImpl implements RestaurantService{
 		
 		return delivery;
 	}
+
+	@Override
+	public Delivery inDelivery(Long restaurantId, Long deliveryId) {
+		Optional<Restaurant> optionalRestaurant = repository.findById(restaurantId);
+		if(optionalRestaurant.isEmpty()) {
+			throw new RestaurantNotFoundException();
+		}
+		Restaurant restaurant = optionalRestaurant.get();
+		Optional<Delivery> optionalDelivery = deliveryRepository.findById(deliveryId);
+		if(optionalDelivery.isEmpty()) {
+			throw new DeliveryNotFoundException("Delivery Not Found");
+		}
+		Delivery delivery = optionalDelivery.get();
+		if(delivery.getOrder().getRestaurant() == restaurant) {
+			delivery.setStatus(DeliveryStatus.IN_DELIVERY);
+			deliveryRepository.save(delivery);
+		}else {
+			throw new BadCredentialsException("Restaurant or delivery code incorrect");
+		}
+		
+		return delivery;
+	}
+
+
+	
 
 }

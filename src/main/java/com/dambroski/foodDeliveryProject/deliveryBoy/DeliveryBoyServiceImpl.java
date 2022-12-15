@@ -1,15 +1,20 @@
 package com.dambroski.foodDeliveryProject.deliveryBoy;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.dambroski.foodDeliveryProject.User.User;
 import com.dambroski.foodDeliveryProject.User.UserRepository;
 import com.dambroski.foodDeliveryProject.delivery.Delivery;
+import com.dambroski.foodDeliveryProject.delivery.DeliveryRepository;
 import com.dambroski.foodDeliveryProject.delivery.DeliveryService;
+import com.dambroski.foodDeliveryProject.error.DeliveryBoyNotFoundException;
+import com.dambroski.foodDeliveryProject.error.DeliveryNotFoundException;
 
 @Service
 public class DeliveryBoyServiceImpl implements DeliveryBoyService {
@@ -19,6 +24,9 @@ public class DeliveryBoyServiceImpl implements DeliveryBoyService {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	DeliveryRepository deliveryRepository;
 
 	@Override
 	public List<DeliveryBoy> getAll() {
@@ -28,13 +36,34 @@ public class DeliveryBoyServiceImpl implements DeliveryBoyService {
 
 	@Override
 	public DeliveryBoy postDelivery(DeliveryBoy deliveryBoy,Long userId) {
-		User user = userRepository.findById(userId).get();
+		Optional<User> optionalUser = userRepository.findById(userId);
+		if(optionalUser.isEmpty()) {
+			throw new UsernameNotFoundException("User Not Found");
+		}
+		User user = optionalUser.get();
 		if(user.getRole().equals("delivery")) {
 			deliveryBoy.setUser(user);
 		}else {
 			throw new BadCredentialsException("user is not a deliveryBoy");
 		}
 		return repository.save(deliveryBoy);
+	}
+
+	@Override
+	public Delivery deliveryFood(Long deliveryBoyId, Long deliveryId) {
+		Optional<DeliveryBoy> optionalBoy = repository.findById(deliveryBoyId);
+		if(optionalBoy.isEmpty()) {
+			throw new DeliveryBoyNotFoundException("Delivery Boy Not Found");
+		}
+		DeliveryBoy boy = optionalBoy.get();
+		Optional<Delivery> optionalDelivery = deliveryRepository.findById(deliveryId);
+		if(optionalDelivery.isEmpty()) {
+			throw new DeliveryNotFoundException("Delivery Boy Not Found");
+		}
+		Delivery delivery = optionalDelivery.get();
+	
+		
+		return null;
 	}
 
 

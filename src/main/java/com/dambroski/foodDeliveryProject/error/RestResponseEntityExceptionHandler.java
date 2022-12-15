@@ -1,5 +1,6 @@
 package com.dambroski.foodDeliveryProject.error;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 @ResponseStatus
-public class restResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	
 	@ExceptionHandler(UserNotFoundException.class)
@@ -31,6 +32,32 @@ public class restResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	
 	@ExceptionHandler(RestaurantNotFoundException.class)
 	public ResponseEntity<ErrorMessage> restaurantNotFound(RestaurantNotFoundException exception,WebRequest request){
+		
+		ErrorMessage erro = new ErrorMessage(HttpStatus.NOT_FOUND,exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+	}
+	
+	@ExceptionHandler(RestaurantDontDeliveryException.class)
+	public ResponseEntity<ErrorMessage> restaurantDontDelivery(RestaurantDontDeliveryException exception, WebRequest request){
+		
+		ErrorMessage erro = new ErrorMessage(HttpStatus.BAD_GATEWAY,exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(erro);
+		
+	}
+	
+	@ExceptionHandler(AddressNotFoundException.class)
+	public ResponseEntity<ErrorMessage> addressNotFound(AddressNotFoundException exception, WebRequest request){
+		
+		ErrorMessage erro = new ErrorMessage(HttpStatus.NOT_FOUND,exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+		
+	}
+	
+	@ExceptionHandler(DeliveryBoyNotFoundException.class)
+	public ResponseEntity<ErrorMessage> deliveryBoyNotFound(DeliveryBoyNotFoundException exception, WebRequest request){
 		
 		ErrorMessage erro = new ErrorMessage(HttpStatus.NOT_FOUND,exception.getMessage());
 		

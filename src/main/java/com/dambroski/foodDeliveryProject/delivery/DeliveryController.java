@@ -31,6 +31,8 @@ public class DeliveryController {
 	public Delivery addDeliveryboy(@PathVariable("deliveryId") Long deliveryId,@PathVariable("deliveryBoyId")Long boyId) {
 		return service.addDeliveryboy(deliveryId,boyId);
 	}
+	
+
 
 	
 }

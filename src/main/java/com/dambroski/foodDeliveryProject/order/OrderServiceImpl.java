@@ -2,16 +2,22 @@ package com.dambroski.foodDeliveryProject.order;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.dambroski.foodDeliveryProject.Address.Address;
 import com.dambroski.foodDeliveryProject.Address.AddressRepository;
+import com.dambroski.foodDeliveryProject.User.User;
 import com.dambroski.foodDeliveryProject.User.UserRepository;
 import com.dambroski.foodDeliveryProject.delivery.Delivery;
 import com.dambroski.foodDeliveryProject.delivery.DeliveryRepository;
 import com.dambroski.foodDeliveryProject.delivery.DeliveryStatus;
 import com.dambroski.foodDeliveryProject.error.NotEnoughFoodException;
+import com.dambroski.foodDeliveryProject.error.RestaurantDontDeliveryException;
+import com.dambroski.foodDeliveryProject.error.RestaurantNotFoundException;
 import com.dambroski.foodDeliveryProject.food.Food;
 import com.dambroski.foodDeliveryProject.food.FoodRepository;
 import com.dambroski.foodDeliveryProject.orderFood.OrderFood;
@@ -80,12 +86,28 @@ public class OrderServiceImpl implements OrderService{
 						, food.getName(),orderFood.getQuantity(),food.getStock()));
 			}	
 		}
+		Optional<User> optionalUser = userRepository.findById(userId);
+		if(optionalUser.isEmpty()) {
+			throw new UsernameNotFoundException("User Not Found");
+		}
+		User user = optionalUser.get();
+		Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
+		if(optionalRestaurant.isEmpty()) {
+			throw new RestaurantNotFoundException("Restaurant Not Found");
+		}
+		Restaurant restaurant = optionalRestaurant.get();
+		Optional<Address> optionalAddress = addressRepository.findById(addressId);
+		Address addressToDelivery = optionalAddress.get();
+		if(restaurant.getAddress().getCity() != addressToDelivery.getCity()) {
+			throw new RestaurantDontDeliveryException("Addres different form restaurant address city");
+			
+		}
 		order.setFoods(list);
-		order.setUser(userRepository.findById(userId).get());
+		order.setUser(user);
 		order.setTotalValue(sum);
 		order.setStatus(OrderStatus.IN_PROCESS);
-		order.setAddress(addressRepository.findById(addressId).get());
-		order.setRestaurant(restaurantRepository.findById(restaurantId).get());
+		order.setAddress(addressToDelivery);
+		order.setRestaurant(restaurant);
 		
 		return repository.save(order);
 	}

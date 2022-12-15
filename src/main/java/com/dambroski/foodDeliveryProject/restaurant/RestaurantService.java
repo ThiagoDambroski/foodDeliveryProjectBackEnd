@@ -15,10 +15,14 @@ public interface RestaurantService {
 
 	Restaurant putRestaurant(Restaurant restaurant, Long restaurantId);
 
-	Restaurant addRestaurant(Address address, Long restaurantId);
+	Restaurant addAddress(Address address, Long restaurantId);
 
 	Restaurant getById(Long restaurantId);
 
 	Delivery aproveDelivery(Long deliveryId, Long restarauntId);
+
+	Restaurant editAddress(Address address, Long addressId);
+
+	Delivery inDelivery(Long restaurantId, Long deliveryId);
 
 }

@@ -50,12 +50,23 @@ public class RestaurantController {
 	}
 	
 	@PutMapping("/addAddress/{restaurantId}")
-	public Restaurant addRestaurant(@RequestBody Address address,@PathVariable("restaurantId") Long restaurantId ) {
-		return service.addRestaurant(address,restaurantId);
+	public Restaurant addAddress(@RequestBody Address address,@PathVariable("restaurantId") Long restaurantId ) {
+		return service.addAddress(address,restaurantId);
+	}
+	
+	@PutMapping("/edit/address/{restaurantId}/{addressId}")
+	public Restaurant editAddress(@RequestBody Address address ,@PathVariable("restaurantId") Long restaurantId) {
+		return service.editAddress(address,restaurantId);
 	}
 	
 	@PutMapping("/aproveDelivery/{restaurantId}/{deliveryId}")
-	public Delivery aproveDelivery(@PathVariable("deliveryId") Long deliveryId,@PathVariable("restaurantId") Long restarauntId) {
+	public Delivery aproveDelivery(@PathVariable("deliveryId") Long deliveryId
+			,@PathVariable("restaurantId") Long restarauntId) {
 		return service.aproveDelivery(deliveryId,restarauntId);
+	}
+	
+	@PutMapping("/inDelivery/{restaurantId}/{deliveryId")
+	public Delivery inDelivery(@PathVariable("restaurantId") Long restaurantId,@PathVariable("deliveryId") Long deliveryId) {
+		return service.inDelivery(restaurantId,deliveryId);
 	}
 }
