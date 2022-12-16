@@ -10,6 +10,6 @@ public interface DeliveryBoyService {
 
 	DeliveryBoy postDelivery(DeliveryBoy deliveryBoy, Long userId);
 
-	Delivery deliveryFood(Long deliveryBoyId, Long deliveryId);
+	Delivery deliveryFood(Long deliveryBoyId, Long deliveryId, String code);
 	
 }

@@ -13,8 +13,10 @@ import com.dambroski.foodDeliveryProject.User.UserRepository;
 import com.dambroski.foodDeliveryProject.delivery.Delivery;
 import com.dambroski.foodDeliveryProject.delivery.DeliveryRepository;
 import com.dambroski.foodDeliveryProject.delivery.DeliveryService;
+import com.dambroski.foodDeliveryProject.delivery.DeliveryStatus;
 import com.dambroski.foodDeliveryProject.error.DeliveryBoyNotFoundException;
 import com.dambroski.foodDeliveryProject.error.DeliveryNotFoundException;
+import com.dambroski.foodDeliveryProject.error.MissMatchException;
 
 @Service
 public class DeliveryBoyServiceImpl implements DeliveryBoyService {
@@ -50,7 +52,7 @@ public class DeliveryBoyServiceImpl implements DeliveryBoyService {
 	}
 
 	@Override
-	public Delivery deliveryFood(Long deliveryBoyId, Long deliveryId) {
+	public Delivery deliveryFood(Long deliveryBoyId, Long deliveryId,String code) {
 		Optional<DeliveryBoy> optionalBoy = repository.findById(deliveryBoyId);
 		if(optionalBoy.isEmpty()) {
 			throw new DeliveryBoyNotFoundException("Delivery Boy Not Found");
@@ -60,11 +62,22 @@ public class DeliveryBoyServiceImpl implements DeliveryBoyService {
 		if(optionalDelivery.isEmpty()) {
 			throw new DeliveryNotFoundException("Delivery Boy Not Found");
 		}
-		Delivery delivery = optionalDelivery.get();
+		Delivery delivery = optionalDelivery .get();
+		User user = delivery.getOrder().getUser();
+		if(delivery.getBoy()!= boy) {
+			throw new MissMatchException("delivery code and moto code are not the same");
+		}
+		if(code != user.getCode()) {
+			throw new MissMatchException("Code is not the same");
+		}
+		delivery.setStatus(DeliveryStatus.DELIVERY);
+		deliveryRepository.save(delivery);
 	
 		
-		return null;
+		return delivery;
 	}
+
+	
 
 
 

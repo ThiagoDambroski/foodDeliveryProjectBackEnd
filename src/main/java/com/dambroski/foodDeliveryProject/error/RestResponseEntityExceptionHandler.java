@@ -63,5 +63,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
 	}
+	
+	@ExceptionHandler(MissMatchException.class)
+	public ResponseEntity<ErrorMessage> missMatchException(MissMatchException exception, WebRequest request){
+		
+		
+		ErrorMessage erro = new ErrorMessage(HttpStatus.EXPECTATION_FAILED,exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(erro);
+	}
 
 }

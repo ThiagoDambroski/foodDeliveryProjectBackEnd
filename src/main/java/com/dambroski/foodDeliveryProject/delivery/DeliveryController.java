@@ -27,7 +27,7 @@ public class DeliveryController {
 		return service.getByRegionDelivery(boyId);
 	}
 	
-	@PutMapping("/addDeliveryBoy/{deliveryId}/{deliveryboyId}")
+	@PutMapping("/addDeliveryBoy/{deliveryId}/{deliveryboyId}/{code}")
 	public Delivery addDeliveryboy(@PathVariable("deliveryId") Long deliveryId,@PathVariable("deliveryBoyId")Long boyId) {
 		return service.addDeliveryboy(deliveryId,boyId);
 	}

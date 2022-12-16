@@ -30,9 +30,10 @@ public class DeliveryBoyController {
 		return service.postDelivery(deliveryBoy,userId);
 	}
 	
-	@PutMapping("/deliveryAOrder/{deliveryId}/{deliveryBoyId}")
-	public Delivery deliveryAOder(@PathVariable("deliveryId") Long deliveryId,@PathVariable("deliveryBoyId") Long deliveryBoyId){
-		return service.deliveryFood(deliveryBoyId,deliveryId);
+	@PutMapping("/deliveryAOrder/{deliveryId}/{deliveryBoyId}/{code}")
+	public Delivery deliveryAOder(@PathVariable("deliveryId") Long deliveryId,@PathVariable("deliveryBoyId") Long deliveryBoyId,
+			@PathVariable("code") String code){
+		return service.deliveryFood(deliveryBoyId,deliveryId,code);
 	}
 
 }

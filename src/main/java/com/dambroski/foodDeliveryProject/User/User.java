@@ -35,6 +35,8 @@ public class User {
 	private String pwd;
 	private String email;
 	private Date birthDate;
+	//add @size 
+	private String code;
 	
 	private String role;
 	
