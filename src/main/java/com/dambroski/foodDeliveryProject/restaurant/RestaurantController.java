@@ -65,7 +65,7 @@ public class RestaurantController {
 		return service.aproveDelivery(deliveryId,restarauntId);
 	}
 	
-	@PutMapping("/inDelivery/{restaurantId}/{deliveryId")
+	@PutMapping("/inDelivery/{restaurantId}/{deliveryId}")
 	public Delivery inDelivery(@PathVariable("restaurantId") Long restaurantId,@PathVariable("deliveryId") Long deliveryId) {
 		return service.inDelivery(restaurantId,deliveryId);
 	}

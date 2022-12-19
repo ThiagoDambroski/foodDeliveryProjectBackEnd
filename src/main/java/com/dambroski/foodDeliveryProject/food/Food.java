@@ -15,6 +15,7 @@ import javax.persistence.SequenceGenerator;
 
 import com.dambroski.foodDeliveryProject.restaurant.Restaurant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,7 +43,7 @@ public class Food {
 	@ElementCollection(targetClass = Category.class)
 	private List<Category> category;
 	
-	@JsonIgnore
+	@JsonIncludeProperties({"restaurantId","name"})
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "restaurant_id",referencedColumnName = "restaurantId")
 	private Restaurant restaurant;

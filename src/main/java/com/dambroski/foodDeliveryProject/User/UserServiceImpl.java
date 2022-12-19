@@ -29,8 +29,11 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User getUserById(Long id) {
-		// TODO Auto-generated method stub
-		return repository.findById(id).get();
+		Optional<User> user = repository.findById(id);
+		if(user.isEmpty()) {
+			throw new UserNotFoundException("User Not Found");
+		}
+		return user.get();
 	}
 	
 	@Override
@@ -97,6 +100,9 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User addAddress(Address address, Long userId) {
 		Optional<User> optionalUser = repository.findById(userId);
+		if(optionalUser.isEmpty()) {
+			throw new UserNotFoundException("User Not Found");
+		}
 		User user =  optionalUser.get();
 		if(user.getAddresses() == null) {
 			List<Address> listAddress = new ArrayList<>();
@@ -125,7 +131,6 @@ public class UserServiceImpl implements UserService{
 				}if(Objects.nonNull(address.getState())) {
 					addressList.setState(address.getState());
 				}
-	
 			}
 		}
 		user.setAddresses(addresses);

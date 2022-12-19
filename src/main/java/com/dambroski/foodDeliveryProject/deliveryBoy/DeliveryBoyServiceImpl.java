@@ -65,7 +65,7 @@ public class DeliveryBoyServiceImpl implements DeliveryBoyService {
 		Delivery delivery = optionalDelivery .get();
 		User user = delivery.getOrder().getUser();
 		if(delivery.getBoy()!= boy) {
-			throw new MissMatchException("delivery code and moto code are not the same");
+			throw new MissMatchException("delivery id and moto code are not the same");
 		}
 		if(code != user.getCode()) {
 			throw new MissMatchException("Code is not the same");
