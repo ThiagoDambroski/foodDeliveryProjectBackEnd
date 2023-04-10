@@ -39,6 +39,7 @@ public class Delivery {
 	@JsonIgnoreProperties({"type","typeId"})
 	private Address selectAddress;
 	
+	@JsonIgnoreProperties({"deliveries","region"})
 	@ManyToOne
 	private DeliveryBoy boy;
 	

@@ -32,7 +32,8 @@ public class FoodController {
 	
 	@GetMapping("/getByCategory/{category}")
 	public List<Food> getByCategory(@PathVariable("category") String category){
-		return service.getFoodByCategory(category);
+		Category categoryEnum = Category.valueOf(category.toUpperCase());
+	    return service.getFoodByCategory(categoryEnum);
 	}
 	
 	@PostMapping("/post/{restaurantId}")

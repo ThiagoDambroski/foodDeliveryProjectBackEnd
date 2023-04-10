@@ -11,5 +11,9 @@ public interface DeliveryBoyService {
 	DeliveryBoy postDelivery(DeliveryBoy deliveryBoy, Long userId);
 
 	Delivery deliveryFood(Long deliveryBoyId, Long deliveryId, String code);
+
+	DeliveryBoy getById(Long boyId);
+
+	DeliveryBoy ChangeBoyRegion(DeliveryBoy boy, Long boyId);
 	
 }

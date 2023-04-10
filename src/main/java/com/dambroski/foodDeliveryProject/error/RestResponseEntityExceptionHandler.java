@@ -72,5 +72,30 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		
 		return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(erro);
 	}
+	
+	@ExceptionHandler(EmailAlreadyTakenException.class)
+	public ResponseEntity<ErrorMessage> emailAlreadyTakenException(EmailAlreadyTakenException exception, WebRequest request){
+		ErrorMessage erro = new ErrorMessage(HttpStatus.CONFLICT,exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
+	}
+	
+	@ExceptionHandler(FoodNotFoundException.class)
+	public ResponseEntity<ErrorMessage> foodNotFoundException(FoodNotFoundException exception,WebRequest request){
+		
+		ErrorMessage erro= new ErrorMessage(HttpStatus.NOT_FOUND,exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+		
+	}
+	
+	@ExceptionHandler(OrderNotFoundException.class)
+	public ResponseEntity<ErrorMessage> orderNotFoundException(OrderNotFoundException exception,WebRequest requesr){
+		ErrorMessage erro = new ErrorMessage(HttpStatus.NOT_FOUND,exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+	}
+	
+	
 
 }

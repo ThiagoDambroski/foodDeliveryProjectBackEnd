@@ -25,6 +25,11 @@ public class DeliveryBoyController {
 		return service.getAll();
 	}
 	
+	@GetMapping("/getById/{boyId}")
+	public DeliveryBoy getById(@PathVariable("bodyId") Long boyId) {
+		return service.getById(boyId);
+	}
+	
 	@PostMapping("/post/{userId}")
 	public DeliveryBoy postDeliveryBoy(@RequestBody DeliveryBoy deliveryBoy,@PathVariable("userId") Long userId) {
 		return service.postDelivery(deliveryBoy,userId);
@@ -34,6 +39,10 @@ public class DeliveryBoyController {
 	public Delivery deliveryAOder(@PathVariable("deliveryId") Long deliveryId,@PathVariable("deliveryBoyId") Long deliveryBoyId,
 			@PathVariable("code") String code){
 		return service.deliveryFood(deliveryBoyId,deliveryId,code);
+	}
+	@PutMapping("/putDeliveryBoy/{boyId}")
+	public DeliveryBoy ChangeBoyRegion(@RequestBody DeliveryBoy boy,  @PathVariable("boyId")Long boyId) {
+		return service.ChangeBoyRegion(boy,boyId);
 	}
 
 }

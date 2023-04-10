@@ -1,6 +1,7 @@
 package com.dambroski.foodDeliveryProject.deliveryBoy;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,15 @@ public class DeliveryBoyServiceImpl implements DeliveryBoyService {
 		// TODO Auto-generated method stub
 		return repository.findAll();
 	}
+	
+	@Override
+	public DeliveryBoy getById(Long boyId) {
+		Optional<DeliveryBoy> optionalBoy = repository.findById(boyId);
+		if(optionalBoy.isEmpty()) {
+			throw new DeliveryBoyNotFoundException("Delivery Boy Not found");
+		}
+		return optionalBoy.get();
+	}
 
 	@Override
 	public DeliveryBoy postDelivery(DeliveryBoy deliveryBoy,Long userId) {
@@ -65,9 +75,9 @@ public class DeliveryBoyServiceImpl implements DeliveryBoyService {
 		Delivery delivery = optionalDelivery .get();
 		User user = delivery.getOrder().getUser();
 		if(delivery.getBoy()!= boy) {
-			throw new MissMatchException("delivery id and moto code are not the same");
+			throw new MissMatchException("delivery id and MotoBoy code are not the same");
 		}
-		if(code != user.getCode()) {
+		if(!code.equals(user.getCode())) {
 			throw new MissMatchException("Code is not the same");
 		}
 		delivery.setStatus(DeliveryStatus.DELIVERY);
@@ -76,6 +86,20 @@ public class DeliveryBoyServiceImpl implements DeliveryBoyService {
 		
 		return delivery;
 	}
+
+	@Override
+	public DeliveryBoy ChangeBoyRegion(DeliveryBoy boy, Long boyId) {
+		Optional<DeliveryBoy> optionalBoy = repository.findById(boyId);
+		if(optionalBoy.isEmpty()) {
+			throw new DeliveryBoyNotFoundException("Delivery Boy Not found");
+		}
+		if(Objects.nonNull(boy.getRegion()) && !"".equals(boy.getRegion())) {
+		  optionalBoy.get().setRegion(boy.getRegion());
+		}
+		return repository.save(optionalBoy.get());
+	}
+
+	
 
 	
 

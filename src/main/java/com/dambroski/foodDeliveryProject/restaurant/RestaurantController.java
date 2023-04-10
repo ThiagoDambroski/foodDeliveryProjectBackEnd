@@ -34,9 +34,9 @@ public class RestaurantController {
 		return service.getById(restaurantId);
 	}
 	
-	@PostMapping("/post")
-	public Restaurant postRestaurant(@RequestBody Restaurant restaurant){
-		return service.post(restaurant);
+	@PostMapping("/post/{userId}")
+	public Restaurant postRestaurant(@RequestBody Restaurant restaurant,@PathVariable("userId") Long userId){
+		return service.post(restaurant,userId);
 	}
 	
 	@PutMapping("/put/{restaurantId}")
@@ -54,7 +54,7 @@ public class RestaurantController {
 		return service.addAddress(address,restaurantId);
 	}
 	
-	@PutMapping("/edit/address/{restaurantId}/{addressId}")
+	@PutMapping("/edit/address/{restaurantId}")
 	public Restaurant editAddress(@RequestBody Address address ,@PathVariable("restaurantId") Long restaurantId) {
 		return service.editAddress(address,restaurantId);
 	}

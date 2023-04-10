@@ -12,6 +12,8 @@ import javax.persistence.OneToOne;
 import com.dambroski.foodDeliveryProject.Address.Address;
 import com.dambroski.foodDeliveryProject.User.User;
 import com.dambroski.foodDeliveryProject.delivery.Delivery;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +30,8 @@ public class DeliveryBoy {
 	@GeneratedValue(generator = "delivery_boy_id",strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	
+	@JsonIncludeProperties({"user_id","name"})
 	@OneToOne
 	private User user;
 	

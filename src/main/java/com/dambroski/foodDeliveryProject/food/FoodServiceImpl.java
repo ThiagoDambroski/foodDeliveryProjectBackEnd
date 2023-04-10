@@ -2,10 +2,13 @@ package com.dambroski.foodDeliveryProject.food;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dambroski.foodDeliveryProject.error.RestaurantNotFoundException;
+import com.dambroski.foodDeliveryProject.restaurant.Restaurant;
 import com.dambroski.foodDeliveryProject.restaurant.RestaurantRepository;
 
 @Service
@@ -22,12 +25,29 @@ public class FoodServiceImpl implements FoodService{
 	
 		return repository.findAll();
 	}
+	@Override
+	public List<Food> getFoodByName(String name) {
+		// TODO Auto-generated method stub
+		return repository.getFoodByName(name);
+	}
+
+	@Override
+	public List<Food> getFoodByCategory(Category category) {
+		
+		return repository.findByCategory(category);
+	}
 
 	@Override
 	public Food postFood(Food food,Long restaurantId) {
-		food.setRestaurant(restaurantRepository.findById(restaurantId).get());
+		Optional<Restaurant> opitonalRestaurant = restaurantRepository.findById(restaurantId);
+		if(opitonalRestaurant.isEmpty()) {
+			throw new RestaurantNotFoundException("Restaurant not found");
+		}
+		food.setRestaurant(opitonalRestaurant.get());
 		return repository.save(food);
 	}
+	
+	
 
 	@Override
 	public Food putFood(Food food, Long id) {
@@ -60,17 +80,7 @@ public class FoodServiceImpl implements FoodService{
 		
 	}
 
-	@Override
-	public List<Food> getFoodByName(String name) {
-		// TODO Auto-generated method stub
-		return repository.getFoodByName(name);
-	}
-
-	@Override
-	public List<Food> getFoodByCategory(String category) {
-		
-		return repository.getFoodByCategory(category);
-	}
+	
 
 	
 }

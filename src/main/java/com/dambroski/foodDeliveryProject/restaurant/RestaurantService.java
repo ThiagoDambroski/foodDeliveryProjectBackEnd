@@ -9,7 +9,7 @@ public interface RestaurantService {
 
 	List<Restaurant> getAll();
 
-	Restaurant post(Restaurant restaurant);
+	Restaurant post(Restaurant restaurant, Long userId);
 
 	void deleteById(Long restaurantId);
 

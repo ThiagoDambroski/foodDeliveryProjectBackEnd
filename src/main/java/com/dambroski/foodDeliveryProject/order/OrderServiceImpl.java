@@ -16,6 +16,7 @@ import com.dambroski.foodDeliveryProject.delivery.Delivery;
 import com.dambroski.foodDeliveryProject.delivery.DeliveryRepository;
 import com.dambroski.foodDeliveryProject.delivery.DeliveryStatus;
 import com.dambroski.foodDeliveryProject.error.NotEnoughFoodException;
+import com.dambroski.foodDeliveryProject.error.OrderNotFoundException;
 import com.dambroski.foodDeliveryProject.error.RestaurantDontDeliveryException;
 import com.dambroski.foodDeliveryProject.error.RestaurantNotFoundException;
 import com.dambroski.foodDeliveryProject.food.Food;
@@ -54,13 +55,23 @@ public class OrderServiceImpl implements OrderService{
 	public List<Order> getAll() {
 		return repository.findAll();
 	}
+	
+	@Override
+	public List<Order> getByUser(Long userId) {
+		Optional<User> optionalUser = userRepository.findById(userId);
+		if(optionalUser.isEmpty()) {
+			throw new UsernameNotFoundException("UserNotFound");
+		}
+		return repository.findAllByUser_UserId(userId);
+	}
+
 
 	@Override
-	public Order post(Order order,Long userId,Long addressId,Long restaurantId) throws Exception {
+	public Order post(Order order,Long userId,Long addressId,Long restaurantId) {
 		List<Long> listIds = order.getFoodsId();
 		List<OrderFood> list = new ArrayList<>();
 		if(listIds == null) {
-			throw new Exception("getFoodsIds is empty");
+			throw new RuntimeException("getFoodsIds is empty");
 		}
 		if(order.getFoods() != null) {
 			list = order.getFoods();
@@ -75,17 +86,7 @@ public class OrderServiceImpl implements OrderService{
 		}	
 		
 		
-		for (OrderFood orderFood : list) {
-			Food food = orderFood.getFood();
-			if(food.getStock() >= orderFood.getQuantity()) {
-				food.setStock(food.getStock() - orderFood.getQuantity());
-				foodRepository.save(food);
-				sum += orderFood.getQuantity() * food.getPrice();
-			}else {
-				throw new NotEnoughFoodException(String.format("The %s dosent have %i itens in stock,only %i"
-						, food.getName(),orderFood.getQuantity(),food.getStock()));
-			}	
-		}
+		
 		Optional<User> optionalUser = userRepository.findById(userId);
 		if(optionalUser.isEmpty()) {
 			throw new UsernameNotFoundException("User Not Found");
@@ -98,9 +99,22 @@ public class OrderServiceImpl implements OrderService{
 		Restaurant restaurant = optionalRestaurant.get();
 		Optional<Address> optionalAddress = addressRepository.findById(addressId);
 		Address addressToDelivery = optionalAddress.get();
-		if(restaurant.getAddress().getCity() != addressToDelivery.getCity()) {
+		if(!restaurant.getAddress().getCity().equals(addressToDelivery.getCity())) {
 			throw new RestaurantDontDeliveryException("Addres different form restaurant address city");
 			
+		}
+		for (OrderFood orderFood : list) {
+			Food food = orderFood.getFood();
+			
+			if(food.getStock() >= orderFood.getQuantity()) {
+				food.setStock(food.getStock() - orderFood.getQuantity());
+				foodRepository.save(food);
+				
+			}else {
+				throw new NotEnoughFoodException(String.format("The %s dosent have %d itens in stock,only %d"
+						, food.getName(),orderFood.getQuantity(),food.getStock()));
+			}
+			sum += orderFood.getQuantity() * food.getPrice();
 		}
 		order.setFoods(list);
 		order.setUser(user);
@@ -114,7 +128,12 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public void deleteById(Long orderId) {
-		Order order = repository.findById(orderId).get();
+		Optional<Order> optionalOrder = repository.findById(orderId);
+		if(optionalOrder.isEmpty()) {
+			throw new OrderNotFoundException("Order not found");
+		}
+		
+		Order order = optionalOrder.get();
 		List<OrderFood> foods = order.getFoods();
 		for (OrderFood orderFood : foods) {
 			Food food = orderFood.getFood();
@@ -136,14 +155,21 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public Order paidOrder(Long orderId) {
-		Order order = repository.findById(orderId).get();
+		Optional<Order> optionalOrder = repository.findById(orderId);
+		if(optionalOrder.isEmpty()) {
+			throw new OrderNotFoundException("Order not found");
+		}
+		
+		Order order = optionalOrder.get();
 		order.setStatus(OrderStatus.PAID);
 		Delivery delivery = Delivery.builder().order(order).status(DeliveryStatus.WAINTING_FOR_RESTAURANT_APROVE)
 			.selectAddress(order.getAddress()).build();
 		deliveryRepository.save(delivery);
+		
 		return order;
 	}
 
+	
 
 
 }

@@ -7,14 +7,18 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.dambroski.foodDeliveryProject.Address.Address;
 import com.dambroski.foodDeliveryProject.Address.AddressRepository;
+import com.dambroski.foodDeliveryProject.User.User;
+import com.dambroski.foodDeliveryProject.User.UserRepository;
 import com.dambroski.foodDeliveryProject.delivery.Delivery;
 import com.dambroski.foodDeliveryProject.delivery.DeliveryRepository;
 import com.dambroski.foodDeliveryProject.delivery.DeliveryStatus;
 import com.dambroski.foodDeliveryProject.error.DeliveryNotFoundException;
+import com.dambroski.foodDeliveryProject.error.MissMatchException;
 import com.dambroski.foodDeliveryProject.error.RestaurantNotFoundException;
 
 @Service
@@ -28,16 +32,39 @@ public class RestaurantServiceImpl implements RestaurantService{
 	
 	@Autowired
 	DeliveryRepository deliveryRepository;	
+	
+	@Autowired
+	UserRepository userRepository;
 
 	@Override
 	public List<Restaurant> getAll() {
 		// TODO Auto-generated method stub
 		return repository.findAll();
 	}
+	
+	@Override
+	public Restaurant getById(Long restaurantId) {
+		Optional<Restaurant> optionalRestaurant = repository.findById(restaurantId);
+		if(optionalRestaurant.isEmpty()) {
+			throw new RestaurantNotFoundException("Restaurant not found Exception");
+		}
+		
+		// TODO Auto-generated method stub
+		return optionalRestaurant.get();
+	}
 
 	@Override
-	public Restaurant post(Restaurant restaurant) {
-		// TODO Auto-generated method stub
+	public Restaurant post(Restaurant restaurant,Long userId) {
+		Optional<User> optionalUser = userRepository.findById(userId);
+		if(optionalUser.isEmpty()) {
+			throw new UsernameNotFoundException("User Not Found");
+		}
+		User user = optionalUser.get();
+		if(user.getRole().equals("restaurant")) {
+			restaurant.setRestaurantOwner(user);
+		}else {
+			throw new BadCredentialsException("user is not a restaurant");
+		}
 		return repository.save(restaurant);
 	}
 
@@ -71,15 +98,15 @@ public class RestaurantServiceImpl implements RestaurantService{
 		}
 		
 	
-		repository.save(newRestaurant);
-		return newRestaurant;
+		
+		return repository.save(newRestaurant);
 	}
 
 	@Override
 	public Restaurant addAddress(Address address, Long restaurantId) {
 		Optional<Restaurant> optionalRestaurant = repository.findById(restaurantId);
 		if(optionalRestaurant.isEmpty()) {
-			throw new RestaurantNotFoundException();
+			throw new RestaurantNotFoundException("Restaurant Not Found");
 		}
 		Restaurant restaurant = optionalRestaurant.get();
 		address.setType("RESTAURANT");
@@ -95,6 +122,7 @@ public class RestaurantServiceImpl implements RestaurantService{
 		if(optionalRestaurant.isEmpty()) {
 			throw new RestaurantNotFoundException("Restaurant not foun");
 		}
+		
 		Restaurant restaurant = optionalRestaurant.get();
 		if(Objects.nonNull(address.getCity()) && !"".equals(address.getCity())) {
 			restaurant.getAddress().setCity(address.getCity());
@@ -113,11 +141,7 @@ public class RestaurantServiceImpl implements RestaurantService{
 	}
 
 
-	@Override
-	public Restaurant getById(Long restaurantId) {
-		// TODO Auto-generated method stub
-		return repository.findById(restaurantId).get();
-	}
+	
 
 	@Override
 	public Delivery aproveDelivery(Long deliveryId, Long restarauntId) {
@@ -135,7 +159,7 @@ public class RestaurantServiceImpl implements RestaurantService{
 			delivery.setStatus(DeliveryStatus.COOKING);
 			deliveryRepository.save(delivery);
 		}else {
-			throw new BadCredentialsException("Restaurant or delivery code incorrect");
+			throw new MissMatchException("This restaurant is not part of this delivery");
 		}
 		
 		return delivery;
@@ -157,7 +181,7 @@ public class RestaurantServiceImpl implements RestaurantService{
 			delivery.setStatus(DeliveryStatus.IN_DELIVERY);
 			deliveryRepository.save(delivery);
 		}else {
-			throw new BadCredentialsException("Restaurant or delivery code incorrect");
+			throw new MissMatchException("This restaurant is not part of this delivery");
 		}
 		
 		return delivery;

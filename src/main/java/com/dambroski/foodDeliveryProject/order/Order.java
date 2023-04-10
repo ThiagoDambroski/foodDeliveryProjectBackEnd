@@ -28,10 +28,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 @Entity
 @Data
@@ -45,12 +47,12 @@ public class Order {
 	@GeneratedValue(generator = "order_id",strategy = GenerationType.IDENTITY)
 	private Long orderId;
 	
-	@JsonIncludeProperties({"userId","name","email"})
+	@JsonIncludeProperties({"id","name","email"})
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id", referencedColumnName = "userId",updatable = true)
+	@JoinColumn(name = "user_id", referencedColumnName = "user_id",updatable = true)
 	private User user;
 	
-	
+	@JsonIgnoreProperties({"type","typeId"})
 	@OneToOne
 	private Address address;
 	
@@ -63,7 +65,7 @@ public class Order {
 	@ManyToMany
 	@JoinTable(joinColumns = @JoinColumn(name = "order_id",referencedColumnName = "orderId"),inverseJoinColumns = 
 	@JoinColumn(name = "order_food_id",referencedColumnName = "orderFoodId"))
-	@JsonIgnoreProperties(value = "orderFoodId" )
+	@JsonIgnoreProperties(value = {"orderFoodId"})
 	private List<OrderFood> foods;
 	
 	@ManyToOne

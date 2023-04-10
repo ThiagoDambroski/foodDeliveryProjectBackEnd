@@ -1,10 +1,12 @@
 package com.dambroski.foodDeliveryProject.orderFood;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dambroski.foodDeliveryProject.error.FoodNotFoundException;
 import com.dambroski.foodDeliveryProject.food.Food;
 import com.dambroski.foodDeliveryProject.food.FoodRepository;
 
@@ -25,7 +27,11 @@ public class OrderFoodServiceImpl implements OrderFoodService{
 
 	@Override
 	public OrderFood postOrderFood(OrderFood orderFood,Long foodId) {
-		Food food = foodRepository.findById(foodId).get();
+		Optional<Food> optionalFood = foodRepository.findById(foodId);
+		if(optionalFood.isEmpty()) {
+			throw new FoodNotFoundException("Food not found");
+		}
+		Food food = optionalFood.get();
 		orderFood.setFood(food);
 		return repository.save(orderFood);
 	}

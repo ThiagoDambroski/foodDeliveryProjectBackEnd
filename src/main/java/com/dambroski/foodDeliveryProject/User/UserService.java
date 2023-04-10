@@ -2,6 +2,9 @@ package com.dambroski.foodDeliveryProject.User;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.dambroski.foodDeliveryProject.Address.Address;
 
 public interface UserService {
@@ -9,6 +12,10 @@ public interface UserService {
 	List<User> getAll();
 
 	User getUserById(Long id);
+
+	List<User> getUserByName(String name);
+
+	User getUserByEmail(String email);
 
 	User postUser(User user);
 
@@ -25,5 +32,7 @@ public interface UserService {
 	User addAddress(Address address, Long userId);
 
 	User editAddress(Address address, Long userId, Long addressId);
+
+
 
 }

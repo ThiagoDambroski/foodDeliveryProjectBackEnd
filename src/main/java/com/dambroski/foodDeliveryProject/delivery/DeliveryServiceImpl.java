@@ -36,6 +36,8 @@ public class DeliveryServiceImpl implements  DeliveryService{
 		DeliveryBoy boy = boyRepository.findById(boyId).get();
 		Delivery delivery = repository.findById(deliveryId).get();
 		delivery.setBoy(boy);
+		boy.getDeliveries().add(delivery);
+		boyRepository.save(boy);
 		return repository.save(delivery);
 	}
 

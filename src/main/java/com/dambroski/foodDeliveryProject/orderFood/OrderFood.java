@@ -8,6 +8,7 @@ import javax.persistence.OneToOne;
 
 import com.dambroski.foodDeliveryProject.food.Food;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class OrderFood {
 	
 	private Long orderFoodId;
 	
+	@JsonIncludeProperties({"foodId","name","restaurant","stock"})
 	@OneToOne(targetEntity = Food.class)
 	private Food food;
 	
