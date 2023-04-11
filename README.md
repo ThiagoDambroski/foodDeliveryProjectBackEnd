@@ -1,7 +1,7 @@
 
 
 <details>
-  <summary>User</summary>
+  <summary><h3>User</h3></summary>
   
   ## User
 
@@ -37,7 +37,7 @@
 </details>
 
 <details>
-  <summary>Restaurant</summary>
+  <summary><h3>Restaurant</h3></summary>
   
   ## Restaurant
 
@@ -67,7 +67,7 @@
 
 
 <details>
-  <summary>OrderFood</summary>
+  <summary><h3>OrderFood</h3></summary>
   ## OrderFood
 
 Essa class serve como um item que ira para o carrinho, contendo uma comida e quantidade dela
@@ -88,7 +88,7 @@ Essa class serve como um item que ira para o carrinho, contendo uma comida e qua
 </details>
 
 <details>
-  <summary>Order</summary>
+  <summary><h3>Order</h3></summary>
   
   ## Order
 
@@ -114,7 +114,7 @@ Essa class serve como um item que ira para o carrinho, contendo uma comida e qua
 </details>
 
 <details>
-  <summary>Food</summary>
+  <summary><h3>Food</h3></summary>
   ## Food
 
 ### Food tem as Propriedades :
@@ -141,7 +141,7 @@ Essa class serve como um item que ira para o carrinho, contendo uma comida e qua
 </details>
 
 <details>
-  <summary>Delivery Boy</summary>
+  <summary><h3>Delivery Boy</h3></summary>
   
   ## DeliveryBoy
 
@@ -163,7 +163,7 @@ Essa class serve como um item que ira para o carrinho, contendo uma comida e qua
 </details>
 
 <details>
-  <summary>Delivery</summary>
+  <summary><h3>Delivery</h3></summary>
   
   ## Delivery
 
@@ -186,7 +186,7 @@ Ela é criada quando o pagamento é confirmado ( if the restaurnt dont aprove th
 </details>
 
 <details>
-  <summary>Addres</summary>
+  <summary><h3>Addres</h3></summary>
   
 ## Address
 
