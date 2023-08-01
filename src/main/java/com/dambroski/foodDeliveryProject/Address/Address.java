@@ -20,7 +20,6 @@ public class Address {
 	@GeneratedValue(generator = "adress_id",strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	
 	private String type;
 	private Long typeId;
 	

@@ -25,6 +25,11 @@ public class FoodController {
 		return service.getAllFoods();
 	}
 	
+	@GetMapping("/getById/{foodId}")
+	public Food getFoodById(@PathVariable("foodId") long foodId) {
+		return service.getFoodById(foodId);
+	}
+	
 	@GetMapping("/getByName/{name}")
 	public List<Food> getFoodByName(@PathVariable("name") String name){
 		return service.getFoodByName(name);

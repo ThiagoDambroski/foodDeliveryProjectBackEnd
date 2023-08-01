@@ -40,7 +40,7 @@ public class DeliveryBoyController {
 			@PathVariable("code") String code){
 		return service.deliveryFood(deliveryBoyId,deliveryId,code);
 	}
-	@PutMapping("/putDeliveryBoy/{boyId}")
+	@PutMapping("/changeBoyRegion/{boyId}")
 	public DeliveryBoy ChangeBoyRegion(@RequestBody DeliveryBoy boy,  @PathVariable("boyId")Long boyId) {
 		return service.ChangeBoyRegion(boy,boyId);
 	}

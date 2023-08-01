@@ -571,7 +571,44 @@
 					"response": []
 				},
 				{
-					"name": "Set delivery as Coocking",
+					"name": "Edit Address (need making)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/restaurant/edit/address/:restaurantId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant",
+								"edit",
+								"address",
+								":restaurantId"
+							],
+							"variable": [
+								{
+									"key": "restaurantId",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aprove Delivery",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -660,6 +697,32 @@
 					"response": []
 				},
 				{
+					"name": "Get Food By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/food/:foodId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"food",
+								":foodId"
+							],
+							"variable": [
+								{
+									"key": "foodId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get Food By Name",
 					"request": {
 						"method": "GET",
@@ -687,7 +750,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Category By Name",
+					"name": "Get Food By Category",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -815,10 +878,10 @@
 			]
 		},
 		{
-			"name": "OrderItem",
+			"name": "OrderFood",
 			"item": [
 				{
-					"name": "Get All OrderItem",
+					"name": "Get All OrderFood",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -838,7 +901,7 @@
 					"response": []
 				},
 				{
-					"name": "OrderItem",
+					"name": "Post OrderFood",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -1056,7 +1119,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/delivery/getByRegionDeliveryBoy/:",
+							"raw": "http://localhost:8080/delivery/getByRegionDeliveryBoy/:boyId",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1065,7 +1128,13 @@
 							"path": [
 								"delivery",
 								"getByRegionDeliveryBoy",
-								":"
+								":boyId"
+							],
+							"variable": [
+								{
+									"key": "boyId",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -1123,6 +1192,33 @@
 							"path": [
 								"deliveryBoy",
 								"getAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Boy By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/deliveryBoy/getById/:boyId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"deliveryBoy",
+								"getById",
+								":boyId"
+							],
+							"variable": [
+								{
+									"key": "boyId",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -1195,6 +1291,33 @@
 								{
 									"key": "code",
 									"value": "2305"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Boy Region",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/deliveryBoy/changeBoyRegion/:boyId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"deliveryBoy",
+								"changeBoyRegion",
+								":boyId"
+							],
+							"variable": [
+								{
+									"key": "boyId",
+									"value": "1"
 								}
 							]
 						}

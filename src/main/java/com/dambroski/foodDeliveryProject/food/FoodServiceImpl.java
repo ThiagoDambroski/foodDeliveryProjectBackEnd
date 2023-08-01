@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dambroski.foodDeliveryProject.error.FoodNotFoundException;
 import com.dambroski.foodDeliveryProject.error.RestaurantNotFoundException;
 import com.dambroski.foodDeliveryProject.restaurant.Restaurant;
 import com.dambroski.foodDeliveryProject.restaurant.RestaurantRepository;
@@ -25,6 +26,14 @@ public class FoodServiceImpl implements FoodService{
 	
 		return repository.findAll();
 	}
+	
+	@Override
+	public Food getFoodById(long foodId) {
+		Food food = repository.findById(foodId)
+				.orElseThrow(() -> new FoodNotFoundException("Food Not found"));
+		return food;
+	}
+	
 	@Override
 	public List<Food> getFoodByName(String name) {
 		// TODO Auto-generated method stub
@@ -79,6 +88,7 @@ public class FoodServiceImpl implements FoodService{
 		repository.deleteById(id);
 		
 	}
+	
 
 	
 
